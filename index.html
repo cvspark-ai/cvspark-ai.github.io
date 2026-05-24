@@ -2,109 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CVSpark – Smart Resume Builder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="CVSpark is a smart online resume and CV builder to create professional resumes in minutes." />
+  <title>CVSpark – Resume Builder</title>
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    h1 {
+      text-align: center;
       color: #222;
     }
 
-    header {
-      background: linear-gradient(135deg, #4f46e5, #6366f1);
-      color: #fff;
-      padding: 50px 20px;
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #4338ca;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #666;
+      margin-top: 10px;
       text-align: center;
-    }
-
-    header h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 18px;
-      opacity: 0.95;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      background: #fff;
-      color: #4f46e5;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 30px;
-    }
-
-    section {
-      padding: 50px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      color: #4f46e5;
-    }
-
-    footer {
-      background: #111827;
-      color: #9ca3af;
-      text-align: center;
-      padding: 25px 10px;
-      font-size: 14px;
     }
   </style>
 </head>
-
 <body>
 
-  <header>
-    <h1>CVSpark</h1>
-    <p>Create professional resumes & CVs in minutes</p>
-    <a class="btn" href="main.html">Start Building</a>
-  </header>
+  <div class="container">
+    <h1>CVSpark Resume Builder</h1>
 
-  <section>
-    <h2>Why CVSpark?</h2>
-    <div class="features">
-      <div class="card">
-        <h3>Easy to Use</h3>
-        <p>No design skills needed. Just fill details and get a professional CV.</p>
-      </div>
-      <div class="card">
-        <h3>Modern Templates</h3>
-        <p>Clean, ATS-friendly resume templates for jobs & internships.</p>
-      </div>
-      <div class="card">
-        <h3>Fast Download</h3>
-        <p>Download your resume instantly in PDF format.</p>
-      </div>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone Number">
+    <textarea id="summary" placeholder="Professional Summary"></textarea>
+
+    <select id="plan">
+      <option value="free">Free (With Watermark)</option>
+      <option value="paid">Paid (No Watermark)</option>
+    </select>
+
+    <button onclick="downloadPDF()">Download Resume PDF</button>
+
+    <div class="note">
+      Free users get watermark. Paid users get clean PDF.
     </div>
-  </section>
+  </div>
 
-  <footer>
-    © 2026 CVSpark • All rights reserved
-  </footer>
+  <script>
+    function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const name = document.getElementById("name").value || "Your Name";
+      const email = document.getElementById("email").value || "";
+      const phone = document.getElementById("phone").value || "";
+      const summary = document.getElementById("summary").value || "";
+      const plan = document.getElementById("plan").value;
+
+      doc.setFontSize(18);
+      doc.text(name, 20, 20);
+
+      doc.setFontSize(11);
+      doc.text(`Email: ${email}`, 20, 30);
+      doc.text(`Phone: ${phone}`, 20, 38);
+
+      doc.setFontSize(13);
+      doc.text("Summary", 20, 55);
+
+      doc.setFontSize(11);
+      doc.text(summary, 20, 63, { maxWidth: 170 });
+
+      // WATERMARK for FREE users
+      if (plan === "free") {
+        doc.setTextColor(200, 200, 200);
+        doc.setFontSize(40);
+        doc.text("CVSPARK", 35, 150, { angle: 45 });
+        doc.setTextColor(0, 0, 0);
+      }
+
+      doc.save("CVSpark_Resume.pdf");
+    }
+  </script>
 
 </body>
 </html>
