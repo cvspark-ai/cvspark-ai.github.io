@@ -4,84 +4,75 @@
   <meta charset="UTF-8">
   <title>CVSpark – Build Your Resume</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f6f8;
+      background: #f3f4f6;
       margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1e88e5;
-      color: white;
       padding: 20px;
-      text-align: center;
     }
-    section {
-      padding: 30px;
+    .container {
       max-width: 900px;
       margin: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    button {
-      background: #1e88e5;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    footer {
+    h1 {
+      grid-column: span 2;
       text-align: center;
-      padding: 15px;
-      background: #eee;
-      font-size: 14px;
+      color: #4f46e5;
+    }
+    form, .preview {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+    .preview h2 {
+      margin-bottom: 5px;
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>CVSpark</h1>
-  <p>Create Professional Resumes Easily</p>
-</header>
+  <div class="container">
+    <h1>Build Your Resume</h1>
 
-<section>
-  <div class="card">
-    <h2>Why CVSpark?</h2>
-    <p>
-      CVSpark helps you build clean, professional resumes in minutes.
-      No design skills needed.
-    </p>
+    <!-- FORM -->
+    <form>
+      <input type="text" placeholder="Full Name" id="name">
+      <input type="email" placeholder="Email">
+      <textarea placeholder="Skills (comma separated)" id="skills"></textarea>
+    </form>
+
+    <!-- PREVIEW -->
+    <div class="preview">
+      <h2 id="pname">Your Name</h2>
+      <p><strong>Skills:</strong></p>
+      <p id="pskills">Your skills will appear here</p>
+    </div>
   </div>
 
-  <div class="card">
-    <h2>Features</h2>
-    <ul>
-      <li>Simple resume builder</li>
-      <li>Modern layout</li>
-      <li>Free to use</li>
-      <li>Mobile friendly</li>
-    </ul>
-  </div>
+  <script>
+    const nameInput = document.getElementById("name");
+    const skillsInput = document.getElementById("skills");
 
-  <div class="card">
-    <h2>Get Started</h2>
-    <p>Resume builder coming soon.</p>
-    <button>Start Building</button>
-  </div>
-</section>
+    nameInput.oninput = () => {
+      document.getElementById("pname").innerText = nameInput.value || "Your Name";
+    };
 
-<footer>
-  © 2026 CVSpark | Made with ❤️
-</footer>
+    skillsInput.oninput = () => {
+      document.getElementById("pskills").innerText = skillsInput.value || "Your skills will appear here";
+    };
+  </script>
 
 </body>
 </html>
