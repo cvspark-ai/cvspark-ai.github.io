@@ -19,7 +19,6 @@
     h1 {
       text-align: center;
       color: #4f46e5;
-      margin-bottom: 20px;
     }
 
     .container {
@@ -40,40 +39,41 @@
     input, textarea {
       width: 100%;
       padding: 10px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
-      font-size: 14px;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 80px;
     }
 
     button {
       width: 100%;
       padding: 12px;
       background: #4f46e5;
-      color: white;
+      color: #fff;
       border: none;
       border-radius: 6px;
-      font-size: 16px;
       cursor: pointer;
+      margin-top: 8px;
     }
 
     button:hover {
       background: #4338ca;
     }
 
-    /* Resume Preview */
-    #resume h2 {
-      margin-bottom: 5px;
+    /* Resume */
+    #resume {
+      position: relative;
     }
 
-    #resume p {
-      margin: 6px 0;
-      font-size: 14px;
+    /* WATERMARK */
+    .watermark {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 42px;
+      color: rgba(0,0,0,0.15);
+      pointer-events: none;
+      user-select: none;
     }
 
     .label {
@@ -92,71 +92,105 @@
 
 <body>
 
-  <h1>Build Your Resume</h1>
+<h1>Build Your Resume</h1>
 
-  <div class="container">
+<div class="container">
 
-    <!-- FORM -->
-    <div class="box">
-      <input type="text" id="name" placeholder="Full Name">
-      <input type="email" id="email" placeholder="Email">
-      <input type="text" id="phone" placeholder="Phone Number">
-      <textarea id="summary" placeholder="Profile Summary"></textarea>
-      <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
-      <textarea id="experience" placeholder="Work Experience"></textarea>
-      <textarea id="education" placeholder="Education"></textarea>
+  <!-- FORM -->
+  <div class="box">
+    <input id="name" placeholder="Full Name">
+    <input id="email" placeholder="Email">
+    <input id="phone" placeholder="Phone">
+    <textarea id="summary" placeholder="Profile Summary"></textarea>
+    <textarea id="skills" placeholder="Skills"></textarea>
+    <textarea id="experience" placeholder="Experience"></textarea>
+    <textarea id="education" placeholder="Education"></textarea>
 
-      <button onclick="downloadPDF()">Download PDF</button>
-    </div>
+    <button onclick="downloadPDF()">Download Free PDF</button>
 
-    <!-- PREVIEW -->
-    <div class="box" id="resume">
-      <h2 id="pname">Your Name</h2>
-      <p id="pemail">email@example.com | 0000000000</p>
-
-      <span class="label">Profile</span>
-      <p id="psummary">Your profile summary will appear here.</p>
-
-      <span class="label">Skills</span>
-      <p id="pskills">Your skills will appear here.</p>
-
-      <span class="label">Experience</span>
-      <p id="pexperience">Your work experience will appear here.</p>
-
-      <span class="label">Education</span>
-      <p id="peducation">Your education details will appear here.</p>
-    </div>
-
+    <button onclick="unlockPremium()" style="background:#16a34a">
+      Unlock Premium (Remove Watermark)
+    </button>
   </div>
 
-  <script>
-    const bind = (input, output, prefix = "") => {
-      document.getElementById(input).oninput = e => {
-        document.getElementById(output).innerText =
-          e.target.value ? prefix + e.target.value : document.getElementById(output).innerText;
-      };
-    };
+  <!-- PREVIEW -->
+  <div class="box" id="resume">
+    <div class="watermark" id="watermark">CVSpark</div>
 
-    bind("name", "pname");
-    bind("email", "pemail");
-    bind("phone", "pemail", " | ");
-    bind("summary", "psummary");
-    bind("skills", "pskills");
-    bind("experience", "pexperience");
-    bind("education", "peducation");
+    <h2 id="pname">Your Name</h2>
+    <p id="pcontact">email@example.com | 0000000000</p>
 
-    function downloadPDF() {
-      const element = document.getElementById("resume");
-      const opt = {
-        margin: 0.5,
-        filename: 'CVSpark_Resume.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
+    <span class="label">Profile</span>
+    <p id="psummary">Profile summary here</p>
+
+    <span class="label">Skills</span>
+    <p id="pskills">Skills here</p>
+
+    <span class="label">Experience</span>
+    <p id="pexperience">Experience here</p>
+
+    <span class="label">Education</span>
+    <p id="peducation">Education here</p>
+  </div>
+
+</div>
+
+<script>
+  // Live preview
+  const bind = (i, o) =>
+    document.getElementById(i).oninput = e =>
+      document.getElementById(o).innerText = e.target.value || document.getElementById(o).innerText;
+
+  bind("name", "pname");
+  bind("summary", "psummary");
+  bind("skills", "pskills");
+  bind("experience", "pexperience");
+  bind("education", "peducation");
+
+  document.getElementById("email").oninput =
+  document.getElementById("phone").oninput = () => {
+    pcontact.innerText =
+      (email.value || "email@example.com") + " | " +
+      (phone.value || "0000000000");
+  };
+
+  // PREMIUM CHECK
+  function isPremium() {
+    return localStorage.getItem("cvspark_premium") === "true";
+  }
+
+  function unlockPremium() {
+    const code = prompt("Enter premium code:");
+    if (code === "CVSPARK2026") {
+      localStorage.setItem("cvspark_premium", "true");
+      alert("Premium unlocked! Watermark removed.");
+      document.getElementById("watermark").style.display = "none";
+    } else {
+      alert("Invalid code");
     }
-  </script>
+  }
+
+  // PDF
+  function downloadPDF() {
+    if (isPremium()) {
+      document.getElementById("watermark").style.display = "none";
+    } else {
+      document.getElementById("watermark").style.display = "block";
+    }
+
+    html2pdf().from(document.getElementById("resume")).set({
+      margin: 0.5,
+      filename: 'CVSpark_Resume.pdf',
+      html2canvas: { scale: 2 },
+      jsPDF: { format: 'a4', orientation: 'portrait' }
+    }).save();
+  }
+
+  // Auto-remove watermark if already paid
+  if (isPremium()) {
+    document.getElementById("watermark").style.display = "none";
+  }
+</script>
 
 </body>
 </html>
