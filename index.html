@@ -1,55 +1,110 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CVSpark</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>CVSpark – Smart Resume Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CVSpark is a smart online resume and CV builder to create professional resumes in minutes." />
+
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
       margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #222;
     }
-    .box {
-      background: #020617;
-      padding: 30px;
-      border-radius: 10px;
+
+    header {
+      background: linear-gradient(135deg, #4f46e5, #6366f1);
+      color: #fff;
+      padding: 50px 20px;
       text-align: center;
-      max-width: 400px;
-      width: 100%;
     }
-    h1 {
-      color: #38bdf8;
+
+    header h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
     }
-    p {
-      color: #cbd5f5;
+
+    header p {
+      font-size: 18px;
+      opacity: 0.95;
     }
-    button {
-      margin-top: 15px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 6px;
-      background: #38bdf8;
-      color: #020617;
-      font-size: 16px;
-      cursor: pointer;
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 28px;
+      background: #fff;
+      color: #4f46e5;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
     }
-    button:hover {
-      background: #0ea5e9;
+
+    section {
+      padding: 50px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #4f46e5;
+    }
+
+    footer {
+      background: #111827;
+      color: #9ca3af;
+      text-align: center;
+      padding: 25px 10px;
+      font-size: 14px;
     }
   </style>
 </head>
+
 <body>
-  <div class="box">
+
+  <header>
     <h1>CVSpark</h1>
-    <p>AI-powered Resume Builder<br>Coming Soon 🚀</p>
-    <button>Get Started</button>
-  </div>
+    <p>Create professional resumes & CVs in minutes</p>
+    <a class="btn" href="main.html">Start Building</a>
+  </header>
+
+  <section>
+    <h2>Why CVSpark?</h2>
+    <div class="features">
+      <div class="card">
+        <h3>Easy to Use</h3>
+        <p>No design skills needed. Just fill details and get a professional CV.</p>
+      </div>
+      <div class="card">
+        <h3>Modern Templates</h3>
+        <p>Clean, ATS-friendly resume templates for jobs & internships.</p>
+      </div>
+      <div class="card">
+        <h3>Fast Download</h3>
+        <p>Download your resume instantly in PDF format.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2026 CVSpark • All rights reserved
+  </footer>
+
 </body>
 </html>
